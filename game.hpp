@@ -1,14 +1,28 @@
 #pragma once
 #include"util.hpp"
+#include"gameplayHUD.hpp"
 #include"menu.hpp"
+#include"player.hpp"
+#include"enemy.hpp"
+#include"combat.hpp"
 class Game{
 private:
 	//Create Classes
 	RenderWindow window;
-	Event event;
+	Event event, action;
 	MainMenu mainmenu;
 	Difficulty difficulty;
 	ClassSelect classselect;
+	RenderStage renderstage;
+	//Create players/enemies
+	Swordsman swords;
+	Archer arch;
+	Wizard wiz;
+	Goblin goblin;
+	Orc orc;
+	Vanguard vanguard;
+	Bane bane;
+	Combat combat;
 	//inScreen variables
 	bool inMenu = true;
 	bool inChooseDiff = false;
@@ -23,8 +37,7 @@ private:
 		bool inStage4 = false;
 	//Initialization
 	void initWindow();
-	void initStates();
-	
+
 public:
 	Game();
 	~Game(){}

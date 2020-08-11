@@ -24,6 +24,7 @@ MainMenu::MainMenu(){
         exit.setPosition(WindowWidth/2, WindowHeight*3/4);
 }
 
+//MainMenu::~MainMenu(){}
 void MainMenu::runEmpty(RenderWindow & window, Event & event){
 	while(window.pollEvent(event)){
 		if(event.type == Event::Closed)

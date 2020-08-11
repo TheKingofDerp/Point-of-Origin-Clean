@@ -18,8 +18,17 @@ void Game::initWindow(){
 	window.create(VideoMode(window_bounds), title);
 	window.setFramerateLimit(framerate_limit);
 	window.setVerticalSyncEnabled(vertical_sync_enabled);
+
 }
 void Game::run(){
+        RenderPlayerHUD PArch(arch);
+        RenderPlayerHUD PSwords(swords);
+        RenderPlayerHUD PWiz(wiz);
+        RenderEnemyHUD gob1(goblin);
+        RenderEnemyHUD orc1(orc);
+        RenderEnemyHUD vang1(vanguard);
+        RenderEnemyHUD bane1(bane);
+
 	while(window.isOpen()){
 		//if in menu
 		if(inMenu){
@@ -55,17 +64,17 @@ void Game::run(){
                                                                 inMenu = true;
                                                                 break;
                                                         case Keyboard::Num1:
-                                                                //Player::setDiffStats(swords, arch, wiz, 1);
+                                                                Player::setDiffStats(swords, arch, wiz, 1);
                                                                 inChooseDiff = false;
                                                                 inClassSelect = true;
                                                                 break;
                                                         case Keyboard::Num2:
-                                                                //Player::setDiffStats(swords, arch, wiz, 2);
+                                                                Player::setDiffStats(swords, arch, wiz, 2);
                                                                 inChooseDiff = false;
                                                                 inClassSelect = true;
                                                                 break;
                                                         case Keyboard::Num3:
-                                                                //Player::setDiffStats(swords, arch, wiz, 3);
+                                                                Player::setDiffStats(swords, arch, wiz, 3);
                                                                 inChooseDiff = false;
                                                                 inClassSelect = true;
                                                                 break;
@@ -89,25 +98,22 @@ void Game::run(){
                                                                 inMenu = true;
                                                                 break;
                                                         case Keyboard::Num1:
-                                                                //inClassSelect = false;
-                                                                //inGame = true;
-                                                                //inStage1 = true;
+                                                                inClassSelect = false;
+                                                                inGame = true;
+                                                                inStage1 = true;
                                                                 isSwords = true;
-                                                                cout<<"1\n";
 								break;
                                                         case Keyboard::Num2:
-                                                                //inClassSelect = false;
-                                                                //inGame = true;
-                                                                //inStage1 = true;
+                                                                inClassSelect = false;
+                                                                inGame = true;
+                                                                inStage1 = true;
                                                                 isArch = true;
-								cout<<"2\n";
                                                                 break;
                                                         case Keyboard::Num3:
-                                                                //nClassSelect = false;
-                                                                //inGame = true;
-                                                                //inStage1 = true;
+                                                                inClassSelect = false;
+                                                                inGame = true;
+                                                                inStage1 = true;
                                                                 isWiz = true;
-								cout<<"3\n";
                                                                 break;
                                                 break;
                                                 }
@@ -115,8 +121,210 @@ void Game::run(){
                         }
                         classselect.render(window);
 		}
+		if(inGame){
+			if(inStage1){
+				while(window.pollEvent(action)){
+                                       	switch(action.type){
+                                       	        case Event::Closed:
+                                       	                window.close();
+                                       	                break;
+                                       	        case Event::KeyReleased:
+                                       	                switch(action.key.code){
+                                       	                        case Keyboard::Escape:
+                                       	                                Player::resetStats(swords, arch, wiz);
+                                       	                                Enemy::resetStats(goblin, orc, vanguard, bane);
+                                       	                                inStage1 = false;
+                                       	                                inGame = false;
+                                       	                                inMenu = true;
+                                       	                                isSwords = false;
+                                       	                                isArch = false;
+                                       	                                isWiz = false;
+                                       	                                break;
+                                       	                }
+                                       	                break;
+                                       	}
+                                       	if(isSwords)
+                                       	        combat.battle(window, action, swords, goblin);
+                                       	if(isArch)
+                                       	        combat.battle(window, action, arch, goblin);
+                                       	if(isWiz)
+                                       	        combat.battle(window, action, wiz, goblin);
+                               	}
+				window.clear();
+                               	renderstage.drawStage1(window);
+                               	if(isSwords){
+                              	        PSwords.drawPlayerHUD(window);
+                               	        swords.drawPlayerStats(window, swords);
+                               	}
+                               	else if(isArch){
+                               	        PArch.drawPlayerHUD(window);
+                               	        arch.drawPlayerStats(window, arch);
+                               	}
+                               	else if(isWiz){
+                               	        PWiz.drawPlayerHUD(window);
+                               	        wiz.drawPlayerStats(window, wiz);
+                               	}
+                               	gob1.drawEnemyHUD(window);
+                               	goblin.drawEnemyStats(window, goblin);
+                               	window.display();
+                               	if(goblin.getHP() == 0){
+                               	        inStage1 = false;
+                               		inStage2 = true;
+                               	}
+			}
+			if(inStage2){
+				while(window.pollEvent(action)){
+					switch(action.type){
+                                                case Event::Closed:
+                                                        window.close();
+                                                        break;
+                                                case Event::KeyReleased:
+                                                        switch(action.key.code){
+                                                                case Keyboard::Escape:
+                                                                        Player::resetStats(swords, arch, wiz);
+                                                                        Enemy::resetStats(goblin, orc, vanguard, bane);
+                                                                        inStage2 = false;
+                                                                        inGame = false;
+                                                                        inClassSelect = true;
+                                                                        isSwords = false;
+                                                                        isArch = false;
+                                                                        isWiz = false;
+                                                                        break;
+                                                        }
+                                                        break;
+                                        }
+                                        if(isSwords)
+                                                combat.battle(window, action, swords, orc);
+                                        if(isArch)
+                                                combat.battle(window, action, arch, orc);
+                                        if(isWiz)
+                                                combat.battle(window, action, wiz, orc);
+				}
+				window.clear();
+                                renderstage.drawStage2(window);
+                                if(isSwords){
+                                        PSwords.drawPlayerHUD(window);
+                                        swords.drawPlayerStats(window, swords);
+                                }
+                                else if(isArch){
+                                        PArch.drawPlayerHUD(window);
+                                        arch.drawPlayerStats(window, arch);
+                                }
+                                else if(isWiz){
+                                        PWiz.drawPlayerHUD(window);
+                                        wiz.drawPlayerStats(window, wiz);
+                                }
+                                orc1.drawEnemyHUD(window);
+                                orc.drawEnemyStats(window, orc);
+                                window.display();
+                                if(orc.getHP() == 0){
+                                        inStage2 = false;
+                                        inStage3 = true;
+                                }
+			}	
+			if(inStage3){
+				while(window.pollEvent(action)){
+					switch(action.type){
+                                                case Event::Closed:
+                                                        window.close();
+                                                        break;
+                                                case Event::KeyReleased:
+                                                        switch(action.key.code){
+                                                                case Keyboard::Escape:
+                                                                        Player::resetStats(swords, arch, wiz);
+                                                                        Enemy::resetStats(goblin, orc, vanguard, bane);
+                                                                        inStage3 = false;
+                                                                        inGame = false;
+                                                                        inClassSelect = true;
+                                                                        isSwords = false;
+                                                                        isArch = false;
+                                                                        isWiz = false;
+                                                                        break;
+                                                        }
+                                                        break;
+                                        }
+                                        if(isSwords)
+                                                combat.battle(window, action, swords, vanguard);
+                                        if(isArch)
+                                                combat.battle(window, action, arch, vanguard);
+                                        if(isWiz)
+                                                combat.battle(window, action, wiz, vanguard);
+				}
+				window.clear();
+                                renderstage.drawStage3(window);
+                                if(isSwords){
+                                        PSwords.drawPlayerHUD(window);
+                                        swords.drawPlayerStats(window, swords);
+                                }
+                                else if(isArch){
+                                        PArch.drawPlayerHUD(window);
+                                        arch.drawPlayerStats(window, arch);
+                                }
+                                else if(isWiz){
+                                        PWiz.drawPlayerHUD(window);
+                                        wiz.drawPlayerStats(window, wiz);
+                                }
+                                vang1.drawEnemyHUD(window);
+                                vanguard.drawEnemyStats(window, vanguard);
+                                window.display();
+                                if(vanguard.getHP() == 0){
+                                        inStage3 = false;
+                                        inStage4 = true;
+                                }
+			}
+			if(inStage4){
+				while(window.pollEvent(action)){
+					switch(action.type){
+                                                case Event::Closed:
+                                                        window.close();
+                                                        break;
+                                                case Event::KeyReleased:
+                                                        switch(action.key.code){
+                                                                case Keyboard::Escape:
+                                                                        Player::resetStats(swords, arch, wiz);
+                                                                        Enemy::resetStats(goblin, orc, vanguard, bane);
+                                                                        inStage4 = false;
+                                                                        inGame = false;
+                                                                        inClassSelect = true;
+                                                                        isSwords = false;
+                                                                        isArch = false;
+                                                                        isWiz = false;
+                                                                        break;
+                                                        }
+                                                        break;
+                                        }
+                                        if(isSwords)
+                                                combat.battle(window, action, swords, bane);
+                                        if(isArch)
+                                                combat.battle(window, action, arch, bane);
+                                        if(isWiz)
+                                                combat.battle(window, action, wiz, bane);
+				}
+				window.clear();
+                                renderstage.drawStage4(window);
+                                if(isSwords){
+                                        PSwords.drawPlayerHUD(window);
+                                        swords.drawPlayerStats(window, swords);
+                                }
+                                else if(isArch){
+                                        PArch.drawPlayerHUD(window);
+                                        arch.drawPlayerStats(window, arch);
+                                }
+                                else if(isWiz){
+                                        PWiz.drawPlayerHUD(window);
+                                        wiz.drawPlayerStats(window, wiz);
+                                }
+                                bane1.drawEnemyHUD(window);
+                                bane.drawEnemyStats(window, bane);
+                                window.display();
+                                if(bane.getHP() == 0){
+                                        inStage4 = false;
+                                        inMenu = true;
+                                }
+			}
+		}
 		//If not in any screen
-		if(!inMenu && !inChooseDiff && !inClassSelect){
+		if(!inMenu && !inChooseDiff && !inClassSelect && !inGame){
 			window.close();
 		}
 	}
