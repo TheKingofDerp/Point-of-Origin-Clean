@@ -15,7 +15,7 @@ Swordsman::Swordsman(){
         ability3 = "Fortify";
         ab1desc = "Do 2x DMG. Cost: 20 Energy";
         ab2desc = "Do 4x DMG. Cost: 60 Energy";
-        ab3desc = "Heal for 1.5X DEF and +1 DEF. Cost: 25 Energy";
+        ab3desc = "+1 DEF. Cost: 25 Energy";
 
 }
 void Player::resetStats(Player & s, Player & a, Player & w){
@@ -262,11 +262,15 @@ void Wizard::abil2(Wizard & w, Enemy & e){
 
 }
 void Swordsman::abil3(Swordsman & s, Enemy & e){
+	int trueEDMG = e.getDMG() - s.getDEF();
+        int truePHP = s.getHP() - trueEDMG;
 	if(s.getEnergy() >= 25){
-		if((s.getHP() + s.getDEF() * 1.5) >= s.getMaxHP())
-			s.setHP(maxhp);
-		else
-			s.setHP(s.getHP() + s.getDEF() * 1.5);
+		if(e.getDMG() > s.getDEF()){
+                	if(truePHP <= 0)
+                        	s.setHP(0);
+                else
+                        s.setHP(truePHP);
+        }
 		s.setDEF(s.getDEF() + 1);
 		s.setEnergy(s.getEnergy() - 25);
 	}
