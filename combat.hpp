@@ -9,10 +9,7 @@ private:
 public:
 	Combat();
 	~Combat();
-	void battle(RenderWindow & window, Event & event, Player & p, Enemy & e);
-	void basicAtk(Player & p, Enemy & e);
-	void ability1Atk(Player & p, Enemy & e);
-	void ability2Atk(Player & p, Enemy & e);
-	void heal(Player & p);
-	void PlayerDeath(Player & p);
+	void Sbattle(RenderWindow & window, Event & event, Swordsman & s, Enemy & e);
+        void Abattle(RenderWindow & window, Event & event, Archer & a, Enemy & e);
+        void Wbattle(RenderWindow & window, Event & event, Wizard & w, Enemy & e);
 };

@@ -28,7 +28,7 @@ private:
 	Font font;
 	float playerWidth, playerHeight;
 	float vsWidth, vsHeight;
-	string optString;
+	string optString, stdesc;
 public:
 	RenderPlayerHUD(Player & p);
 	RenderPlayerHUD(){}

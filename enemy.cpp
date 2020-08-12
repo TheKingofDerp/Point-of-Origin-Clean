@@ -70,8 +70,8 @@ void Enemy::drawEnemyStats(RenderWindow & window, Enemy & e){
 	stats = string(toString<int>(e.getHP())) + string("\n\n\n") + string(toString<int>(e.getDMG())) + string("\n\n\n") + string(toString<int>(e.getDEF()));
 	eTxt.setString(stats);
 	eTxt.setFont(font);
-	eTxt.setCharacterSize(20);
+	eTxt.setCharacterSize(16);
 	eTxt.setFillColor(ORANGE);
-	eTxt.setPosition(850, 410);
+	eTxt.setPosition(900, 410);
 	window.draw(eTxt);
 }

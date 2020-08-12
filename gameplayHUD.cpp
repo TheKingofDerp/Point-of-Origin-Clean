@@ -44,8 +44,8 @@ RenderStage::RenderStage(){
         vert1.setOrigin(vertwidth/2, vertheight);
         vert2.setOrigin(vertwidth/2, vertheight);
         horiz.setPosition(0, WindowHeight*2/3);
-        vert1.setPosition(WindowWidth/2, WindowHeight);
-        vert2.setPosition(WindowWidth*3/4, WindowHeight);
+        vert1.setPosition(WindowWidth*3/5, WindowHeight);
+        vert2.setPosition(WindowWidth*4/5, WindowHeight);
 
 	estats.setFont(stagefont);
 	pstats.setFont(stagefont);
@@ -53,10 +53,10 @@ RenderStage::RenderStage(){
 	estats.setString("HP:\n\n\nDMG:\n\n\nDEF:");
 	pstats.setFillColor(Color::Green);
 	estats.setFillColor(ORANGE);
-	pstats.setCharacterSize(20);
-	estats.setCharacterSize(20);
-	pstats.setPosition(510, 410);
-	estats.setPosition(750, 410);
+	pstats.setCharacterSize(16);
+	estats.setCharacterSize(16);
+	pstats.setPosition(580, 410);
+	estats.setPosition(790, 410);
 }
 void RenderStage::drawStage1(RenderWindow & window){
 	mainmenu.drawBGopaque(window);
@@ -109,7 +109,8 @@ RenderPlayerHUD::RenderPlayerHUD(Player & p){
 	options.setFillColor(LIGHTBLUE);
 	options.setPosition(10, 410);
 	descr.setFont(font);
-	descr.setString("Do damage. Energy Cost: 0\n\n\n\nDo 2x DMG. Energy Cost: 20\n\n\n\nDo 4x DMG. Energy Cost: 50\n\n\n\nHeal for 2.5x DEF. Energy Cost: 25");
+	stdesc = string("Do Damage. Cost: 0 Energy\n\n\n\n") + string(p.ab1desc) + string("\n\n\n\n") + string(p.ab2desc) + string("\n\n\n\n") + string(p.ab3desc);
+        descr.setString(stdesc);
 	descr.setFillColor(LIGHTBLUE);
 	descr.setCharacterSize(12);
 	descr.setPosition(30, 435);

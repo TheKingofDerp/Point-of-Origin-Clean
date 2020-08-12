@@ -50,6 +50,7 @@ void Game::run(){
 				}
 			}
 			mainmenu.drawMainMenu(window);
+			Enemy::resetStats(goblin, orc, vanguard, bane);
 		}
 		if(inChooseDiff){
 			while(window.pollEvent(event)){
@@ -143,12 +144,30 @@ void Game::run(){
                                        	                }
                                        	                break;
                                        	}
-                                       	if(isSwords)
-                                       	        combat.battle(window, action, swords, goblin);
-                                       	if(isArch)
-                                       	        combat.battle(window, action, arch, goblin);
-                                       	if(isWiz)
-                                       	        combat.battle(window, action, wiz, goblin);
+                                       	if(isSwords){
+                                       	        combat.Sbattle(window, action, swords, goblin);
+						if(swords.getHP() == 0){
+							inLose = true;
+							inGame = false;
+							inStage1 = false;
+						}
+					}
+                                       	if(isArch){
+                                       	        combat.Abattle(window, action, arch, goblin);
+						if(arch.getHP() == 0){
+                                                        inLose = true;
+                                                        inGame = false;
+                                                        inStage1 = false;
+                                                }
+                                        }
+                                       	if(isWiz){
+                                       	        combat.Wbattle(window, action, wiz, goblin);
+						if(wiz.getHP() == 0){
+                                                        inLose = true;
+                                                        inGame = false;
+                                                        inStage1 = false;
+                                                }
+                                        }
                                	}
 				window.clear();
                                	renderstage.drawStage1(window);
@@ -193,12 +212,30 @@ void Game::run(){
                                                         }
                                                         break;
                                         }
-                                        if(isSwords)
-                                                combat.battle(window, action, swords, orc);
-                                        if(isArch)
-                                                combat.battle(window, action, arch, orc);
-                                        if(isWiz)
-                                                combat.battle(window, action, wiz, orc);
+                                        if(isSwords){
+                                                combat.Sbattle(window, action, swords, orc);
+                                                if(swords.getHP() == 0){
+                                                        inLose = true;
+                                                        inGame = false;
+                                                        inStage2 = false;
+                                                }
+                                        }
+                                        if(isArch){
+                                                combat.Abattle(window, action, arch, orc);
+                                                if(arch.getHP() == 0){
+                                                        inLose = true;
+                                                        inGame = false;
+                                                        inStage2 = false;
+                                                }
+                                        }
+                                        if(isWiz){
+                                                combat.Wbattle(window, action, wiz, orc);
+                                                if(wiz.getHP() == 0){
+                                                        inLose = true;
+                                                        inGame = false;
+                                                        inStage2 = false;
+                                                }
+                                        }
 				}
 				window.clear();
                                 renderstage.drawStage2(window);
@@ -243,12 +280,30 @@ void Game::run(){
                                                         }
                                                         break;
                                         }
-                                        if(isSwords)
-                                                combat.battle(window, action, swords, vanguard);
-                                        if(isArch)
-                                                combat.battle(window, action, arch, vanguard);
-                                        if(isWiz)
-                                                combat.battle(window, action, wiz, vanguard);
+					if(isSwords){
+                                                combat.Sbattle(window, action, swords, vanguard);
+                                                if(swords.getHP() == 0){
+                                                        inLose = true;
+                                                        inGame = false;
+                                                        inStage3 = false;
+                                                }
+                                        }
+                                        if(isArch){
+                                                combat.Abattle(window, action, arch, vanguard);
+                                                if(arch.getHP() == 0){
+                                                        inLose = true;
+                                                        inGame = false;
+                                                        inStage3 = false;
+                                                }
+                                        }
+                                        if(isWiz){
+                                                combat.Wbattle(window, action, wiz, vanguard);
+                                                if(wiz.getHP() == 0){
+                                                        inLose = true;
+                                                        inGame = false;
+                                                        inStage3 = false;
+                                                }
+                                        }
 				}
 				window.clear();
                                 renderstage.drawStage3(window);
@@ -293,12 +348,30 @@ void Game::run(){
                                                         }
                                                         break;
                                         }
-                                        if(isSwords)
-                                                combat.battle(window, action, swords, bane);
-                                        if(isArch)
-                                                combat.battle(window, action, arch, bane);
-                                        if(isWiz)
-                                                combat.battle(window, action, wiz, bane);
+                                        if(isSwords){
+                                                combat.Sbattle(window, action, swords, bane);
+                                                if(swords.getHP() == 0){
+                                                        inLose = true;
+                                                        inGame = false;
+                                                        inStage4 = false;
+                                                }
+                                        }
+                                        if(isArch){
+                                                combat.Abattle(window, action, arch, bane);
+                                                if(arch.getHP() == 0){
+                                                        inLose = true;
+                                                        inGame = false;
+                                                        inStage4 = false;
+                                                }
+                                        }
+                                        if(isWiz){
+                                                combat.Wbattle(window, action, wiz, bane);
+                                                if(wiz.getHP() == 0){
+                                                        inLose = true;
+                                                        inGame = false;
+                                                        inStage4 = false;
+                                                }
+                                        }
 				}
 				window.clear();
                                 renderstage.drawStage4(window);
@@ -319,12 +392,42 @@ void Game::run(){
                                 window.display();
                                 if(bane.getHP() == 0){
                                         inStage4 = false;
-                                        inMenu = true;
+                                        inWin = true;
                                 }
 			}
 		}
+		if(inWin){
+			while(window.pollEvent(event)){
+				if(event.type == Event::Closed)
+					window.close();
+				if(event.type == Event::KeyReleased)
+					if(event.key.code == Keyboard::Escape){
+						inWin = false;
+						inMenu = true;
+					}
+			}
+			window.clear();
+			mainmenu.drawBGopaque(window);
+			winlose.drawWin(window);
+			window.display();
+		}
+		if(inLose){
+			while(window.pollEvent(event)){
+                                if(event.type == Event::Closed)
+                                        window.close();
+                                if(event.type == Event::KeyReleased)
+                                        if(event.key.code == Keyboard::Escape){
+                                                inLose = false;
+                                                inMenu = true;
+                                        }
+                        }
+			window.clear();
+			mainmenu.drawBGopaque(window);
+			winlose.drawLose(window);
+			window.display();
+		}
 		//If not in any screen
-		if(!inMenu && !inChooseDiff && !inClassSelect && !inGame){
+		if(!inMenu && !inChooseDiff && !inClassSelect && !inGame && !inWin && !inLose){
 			window.close();
 		}
 	}

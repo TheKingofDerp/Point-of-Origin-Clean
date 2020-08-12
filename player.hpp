@@ -1,5 +1,7 @@
 #pragma once
 #include"util.hpp"
+#include"enemy.hpp"
+
 //Player unit values
         #define STARTHP 100
 	//Archer
@@ -18,7 +20,8 @@ friend class RenderPlayerHUD;
 protected:
 	int hp, energy = 0, dmg, def, maxhp, maxenergy;
 	string name, stats;
-	string ability1, ability2;
+	string ability1, ability2, ability3;
+	string ab1desc, ab2desc, ab3desc;
 	Text pTxt;
 	Font font;
 public:
@@ -30,6 +33,11 @@ public:
 	//Reset function
 	static void resetStats(Player & s, Player & a, Player & w);
 	static void setDiffStats(Player & s, Player & a, Player & w, int diff);
+	void basicAtk(Player & p, Enemy & e);
+	//Ability functions
+        /*void abil1(Player & p, Enemy & e);
+        void abil2(Player & p, Enemy & e);
+        void abil3(Player & p, Enemy & e);*/
 	//Stat functions
 	int getHP(){return hp;}
 	void setHP(int h){hp = h;}
@@ -51,6 +59,9 @@ private:
 public:
 	Swordsman();
 	~Swordsman();
+        void abil1(Swordsman & s, Enemy & e);
+        void abil2(Swordsman & s, Enemy & e);
+        void abil3(Swordsman & s, Enemy & e);
 };
 
 class Archer : public Player{
@@ -58,6 +69,9 @@ private:
 public:
 	Archer();
 	~Archer();
+        void abil1(Archer & a, Enemy & e);
+        void abil2(Archer & a, Enemy & e);
+        void abil3(Archer & a, Enemy & e);
 };
 
 class Wizard : public Player{
@@ -65,4 +79,7 @@ private:
 public:
 	Wizard();
 	~Wizard();
+        void abil1(Wizard & w, Enemy & e);
+        void abil2(Wizard & w, Enemy & e);
+        void abil3(Wizard & w, Enemy & e);
 };

@@ -41,3 +41,14 @@ public:
         void render(RenderWindow & window);
 
 };
+
+class WinLose{
+private:
+	Text win, lose, menu;
+	Font font;
+public:
+	WinLose();
+	~WinLose(){}
+	void drawWin(RenderWindow & window);
+	void drawLose(RenderWindow & window);
+};

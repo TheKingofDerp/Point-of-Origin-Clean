@@ -1,9 +1,6 @@
 #pragma once
 #include"util.hpp"
 #include"gameplayHUD.hpp"
-#include"menu.hpp"
-#include"player.hpp"
-#include"enemy.hpp"
 #include"combat.hpp"
 class Game{
 private:
@@ -23,6 +20,7 @@ private:
 	Vanguard vanguard;
 	Bane bane;
 	Combat combat;
+	WinLose winlose;
 	//inScreen variables
 	bool inMenu = true;
 	bool inChooseDiff = false;
@@ -35,6 +33,8 @@ private:
 		bool inStage2 = false;
 		bool inStage3 = false;
 		bool inStage4 = false;
+	bool inWin = false;
+	bool inLose = false;
 	//Initialization
 	void initWindow();
 

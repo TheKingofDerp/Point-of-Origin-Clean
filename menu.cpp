@@ -129,3 +129,35 @@ void ClassSelect::render(RenderWindow & window){
         window.draw(back);
         window.display();
 }
+
+WinLose::WinLose(){
+	font.loadFromFile("fonts/defused.ttf");
+	win.setFont(font);
+	lose.setFont(font);
+	menu.setFont(font);
+	win.setString("\t    Congratulations\n  You have restored peace \nand prosperity to the world");
+	lose.setString("  Congratulations\n\t\tYou lost");
+	menu.setString("ESC) Main Menu");
+	win.setFillColor(ORANGE);
+	lose.setFillColor(ORANGE);
+	menu.setFillColor(ORANGE);
+	win.setCharacterSize(40);
+	lose.setCharacterSize(40);
+	menu.setCharacterSize(24);
+	win.setOrigin(win.getLocalBounds().width/2, win.getLocalBounds().height/2);
+	win.setPosition(WindowWidth/2, WindowHeight/3);
+        lose.setOrigin(lose.getLocalBounds().width/2, lose.getLocalBounds().height/2);
+        lose.setPosition(WindowWidth/2, WindowHeight/3);
+        menu.setOrigin(menu.getLocalBounds().width/2, menu.getLocalBounds().height/2);
+        menu.setPosition(WindowWidth/4, WindowHeight*2/3);
+}
+
+void WinLose::drawWin(RenderWindow & window){
+	window.draw(win);
+	window.draw(menu);
+}
+void WinLose::drawLose(RenderWindow & window){
+        window.draw(lose);
+        window.draw(menu);
+}
+
