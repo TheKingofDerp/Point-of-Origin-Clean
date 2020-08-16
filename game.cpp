@@ -28,7 +28,7 @@ void Game::run(){
         RenderEnemyHUD orc1(orc);
         RenderEnemyHUD vang1(vanguard);
         RenderEnemyHUD bane1(bane);
-
+	Promotion prom;
 	while(window.isOpen()){
 		//if in menu
 		if(inMenu){
@@ -42,6 +42,7 @@ void Game::run(){
 							case Keyboard::Enter:
 								inMenu = false;
 								inChooseDiff = true;
+								cout<<"Start Game\n";
 								break;
 							case Keyboard::Escape:
 								window.close();
@@ -68,16 +69,19 @@ void Game::run(){
                                                                 Player::setDiffStats(swords, arch, wiz, 1);
                                                                 inChooseDiff = false;
                                                                 inClassSelect = true;
+								cout<<"Easy Difficulty1\n";
                                                                 break;
                                                         case Keyboard::Num2:
                                                                 Player::setDiffStats(swords, arch, wiz, 2);
                                                                 inChooseDiff = false;
                                                                 inClassSelect = true;
+								cout<<"Medium Difficulty\n";
                                                                 break;
                                                         case Keyboard::Num3:
                                                                 Player::setDiffStats(swords, arch, wiz, 3);
                                                                 inChooseDiff = false;
                                                                 inClassSelect = true;
+								cout<<"Hard Difficulty\n";
                                                                 break;
                                                 }
                                                 break;
@@ -97,24 +101,28 @@ void Game::run(){
                                                         case Keyboard::Escape:
                                                                 inClassSelect = false;
                                                                 inMenu = true;
+								cout<<"Back to menu\n";
                                                                 break;
                                                         case Keyboard::Num1:
                                                                 inClassSelect = false;
                                                                 inGame = true;
                                                                 inStage1 = true;
                                                                 isSwords = true;
+								cout<<"Swordsman\n";
 								break;
                                                         case Keyboard::Num2:
                                                                 inClassSelect = false;
                                                                 inGame = true;
                                                                 inStage1 = true;
                                                                 isArch = true;
+								cout<<"Archer\n";
                                                                 break;
                                                         case Keyboard::Num3:
                                                                 inClassSelect = false;
                                                                 inGame = true;
                                                                 inStage1 = true;
                                                                 isWiz = true;
+								cout<<"Wizard\n";
                                                                 break;
                                                 break;
                                                 }
@@ -140,13 +148,14 @@ void Game::run(){
                                        	                                isSwords = false;
                                        	                                isArch = false;
                                        	                                isWiz = false;
+									cout<<"Back to menu\n";
                                        	                                break;
                                        	                }
                                        	                break;
                                        	}
                                        	if(isSwords){
                                        	        combat.Sbattle(window, action, swords, goblin);
-						if(swords.getHP() == 0){
+						if(swords.getHP() <= 0){
 							inLose = true;
 							inGame = false;
 							inStage1 = false;
@@ -154,7 +163,7 @@ void Game::run(){
 					}
                                        	if(isArch){
                                        	        combat.Abattle(window, action, arch, goblin);
-						if(arch.getHP() == 0){
+						if(arch.getHP() <= 0){
                                                         inLose = true;
                                                         inGame = false;
                                                         inStage1 = false;
@@ -162,7 +171,7 @@ void Game::run(){
                                         }
                                        	if(isWiz){
                                        	        combat.Wbattle(window, action, wiz, goblin);
-						if(wiz.getHP() == 0){
+						if(wiz.getHP() <= 0){
                                                         inLose = true;
                                                         inGame = false;
                                                         inStage1 = false;
@@ -186,11 +195,201 @@ void Game::run(){
                                	gob1.drawEnemyHUD(window);
                                	goblin.drawEnemyStats(window, goblin);
                                	window.display();
-                               	if(goblin.getHP() == 0){
+                               	if(goblin.getHP() <= 0){
                                	        inStage1 = false;
-                               		inStage2 = true;
+                               		inPromotion1 = true;
                                	}
 			}
+			if(inPromotion1){
+				while(window.pollEvent(action)){
+					switch(action.type){
+						case Event::Closed:
+							window.close();
+							break;
+						case Event::KeyReleased:
+							switch(action.key.code){
+								case Keyboard::Num1:
+									if(isSwords)
+										prom.promote1(swords);
+									if(isArch)
+										prom.promote1(arch);
+									if(isWiz)
+										prom.promote1(wiz);
+									inPromotion1 = false;
+									inStage2 = true;
+									break;
+								case Keyboard::Num2:
+									if(isSwords)
+                                                                                prom.promote2(swords);
+                                                                        if(isArch)
+                                                                                prom.promote2(arch);
+                                                                        if(isWiz)
+                                                                                prom.promote2(wiz);
+									inPromotion1 = false;
+									inStage2 = true;
+									break;
+								case Keyboard::Num3:
+									if(isSwords)
+                                                                                prom.promote3(swords);
+                                                                        if(isArch)
+                                                                                prom.promote3(arch);
+                                                                        if(isWiz)
+                                                                                prom.promote3(wiz);
+									inPromotion1 = false;
+									inStage2 = true;
+									break;
+								case Keyboard::Num4:
+									if(isSwords)
+                                                                                prom.promote4(swords);
+                                                                        if(isArch)
+                                                                                prom.promote4(arch);
+                                                                        if(isWiz)
+                                                                                prom.promote4(wiz);
+									inPromotion1 = false;
+									inStage2 = true;
+									break;
+								case Keyboard::Num5:
+									if(isSwords)
+                                                                                prom.promote5(swords);
+                                                                        if(isArch)
+                                                                                prom.promote5(arch);
+                                                                        if(isWiz)
+                                                                                prom.promote5(wiz);
+									inPromotion1 = false;
+									inStage2 = true;
+									break;
+							}
+					}
+				}
+				prom.drawPromotion(window);
+			}
+                        if(inPromotion2){
+                                while(window.pollEvent(action)){
+                                        switch(action.type){
+                                                case Event::Closed:
+                                                        window.close();
+                                                        break;
+                                                case Event::KeyReleased:
+                                                        switch(action.key.code){
+                                                        	case Keyboard::Num1:
+                                                                        if(isSwords)
+                                                                                prom.promote1(swords);
+                                                                        if(isArch)
+                                                                                prom.promote1(arch);
+                                                                        if(isWiz)
+                                                                                prom.promote1(wiz);
+                                                                        inPromotion2 = false;
+                                                                        inStage3 = true;
+                                                                        break;
+                                                                case Keyboard::Num2:
+                                                                        if(isSwords)
+                                                                                prom.promote2(swords);
+                                                                        if(isArch)
+                                                                                prom.promote2(arch);
+                                                                        if(isWiz)
+                                                                                prom.promote2(wiz);
+                                                                        inPromotion2 = false;
+                                                                        inStage3 = true;
+                                                                        break;
+                                                                case Keyboard::Num3:
+                                                                        if(isSwords)
+                                                                                prom.promote3(swords);
+                                                                        if(isArch)
+                                                                                prom.promote3(arch);
+                                                                        if(isWiz)
+                                                                                prom.promote3(wiz);
+                                                                        inPromotion2 = false;
+                                                                        inStage3 = true;
+                                                                        break;
+								case Keyboard::Num4:
+                                                                        if(isSwords)
+                                                                                prom.promote4(swords);
+                                                                        if(isArch)
+                                                                                prom.promote4(arch);
+                                                                        if(isWiz)
+                                                                                prom.promote4(wiz);
+                                                                        inPromotion2 = false;
+                                                                        inStage3 = true;
+                                                                        break;
+                                                                case Keyboard::Num5:
+                                                                        if(isSwords)
+                                                                                prom.promote5(swords);
+                                                                        if(isArch)
+                                                                                prom.promote5(arch);
+                                                                        if(isWiz)
+                                                                                prom.promote5(wiz);
+                                                                        inPromotion2 = false;
+                                                                        inStage3 = true;
+                                                                        break;
+							}
+                                        }
+                                }
+				prom.drawPromotion(window);
+                        }
+                        if(inPromotion3){
+                                while(window.pollEvent(action)){
+                                        switch(action.type){
+                                                case Event::Closed:
+                                                        window.close();
+                                                        break;
+                                                case Event::KeyReleased:
+                                                        switch(action.key.code){
+                                                        	case Keyboard::Num1:
+                                                                        if(isSwords)
+                                                                                prom.promote1(swords);
+                                                                        if(isArch)
+                                                                                prom.promote1(arch);
+                                                                        if(isWiz)
+                                                                                prom.promote1(wiz);
+                                                                        inPromotion3 = false;
+                                                                        inStage4 = true;
+                                                                        break;
+                                                                case Keyboard::Num2:
+                                                                        if(isSwords)
+                                                                                prom.promote2(swords);
+                                                                        if(isArch)
+                                                                                prom.promote2(arch);
+                                                                        if(isWiz)
+                                                                                prom.promote2(wiz);
+                                                                        inPromotion3 = false;
+                                                                        inStage4 = true;
+                                                                        break;
+                                                                case Keyboard::Num3:
+                                                                        if(isSwords)
+                                                                                prom.promote3(swords);
+                                                                        if(isArch)
+                                                                                prom.promote3(arch);
+                                                                        if(isWiz)
+                                                                                prom.promote3(wiz);
+                                                                        inPromotion3 = false;
+                                                                        inStage4 = true;
+                                                                        break;
+                                                                case Keyboard::Num4:
+                                                                        if(isSwords)
+                                                                                prom.promote4(swords);
+                                                                        if(isArch)
+                                                                                prom.promote4(arch);
+                                                                        if(isWiz)
+                                                                                prom.promote4(wiz);
+                                                                        inPromotion3 = false;
+                                                                        inStage4 = true;
+                                                                        break;
+								case Keyboard::Num5:
+                                                                        if(isSwords)
+                                                                                prom.promote5(swords);
+                                                                        if(isArch)
+                                                                                prom.promote5(arch);
+                                                                        if(isWiz)
+                                                                                prom.promote5(wiz);
+                                                                        inPromotion3 = false;
+                                                                        inStage4 = true;
+                                                                        break;
+							}
+                                        }
+                                }
+				prom.drawPromotion(window);
+                        }
+
 			if(inStage2){
 				while(window.pollEvent(action)){
 					switch(action.type){
@@ -214,7 +413,7 @@ void Game::run(){
                                         }
                                         if(isSwords){
                                                 combat.Sbattle(window, action, swords, orc);
-                                                if(swords.getHP() == 0){
+                                                if(swords.getHP() <= 0){
                                                         inLose = true;
                                                         inGame = false;
                                                         inStage2 = false;
@@ -222,7 +421,7 @@ void Game::run(){
                                         }
                                         if(isArch){
                                                 combat.Abattle(window, action, arch, orc);
-                                                if(arch.getHP() == 0){
+                                                if(arch.getHP() <= 0){
                                                         inLose = true;
                                                         inGame = false;
                                                         inStage2 = false;
@@ -230,7 +429,7 @@ void Game::run(){
                                         }
                                         if(isWiz){
                                                 combat.Wbattle(window, action, wiz, orc);
-                                                if(wiz.getHP() == 0){
+                                                if(wiz.getHP() <= 0){
                                                         inLose = true;
                                                         inGame = false;
                                                         inStage2 = false;
@@ -254,9 +453,9 @@ void Game::run(){
                                 orc1.drawEnemyHUD(window);
                                 orc.drawEnemyStats(window, orc);
                                 window.display();
-                                if(orc.getHP() == 0){
+                                if(orc.getHP() <= 0){
                                         inStage2 = false;
-                                        inStage3 = true;
+                                        inPromotion2 = true;
                                 }
 			}	
 			if(inStage3){
@@ -282,7 +481,7 @@ void Game::run(){
                                         }
 					if(isSwords){
                                                 combat.Sbattle(window, action, swords, vanguard);
-                                                if(swords.getHP() == 0){
+                                                if(swords.getHP() <= 0){
                                                         inLose = true;
                                                         inGame = false;
                                                         inStage3 = false;
@@ -290,7 +489,7 @@ void Game::run(){
                                         }
                                         if(isArch){
                                                 combat.Abattle(window, action, arch, vanguard);
-                                                if(arch.getHP() == 0){
+                                                if(arch.getHP() <= 0){
                                                         inLose = true;
                                                         inGame = false;
                                                         inStage3 = false;
@@ -298,7 +497,7 @@ void Game::run(){
                                         }
                                         if(isWiz){
                                                 combat.Wbattle(window, action, wiz, vanguard);
-                                                if(wiz.getHP() == 0){
+                                                if(wiz.getHP() <= 0){
                                                         inLose = true;
                                                         inGame = false;
                                                         inStage3 = false;
@@ -322,9 +521,9 @@ void Game::run(){
                                 vang1.drawEnemyHUD(window);
                                 vanguard.drawEnemyStats(window, vanguard);
                                 window.display();
-                                if(vanguard.getHP() == 0){
+                                if(vanguard.getHP() <= 0){
                                         inStage3 = false;
-                                        inStage4 = true;
+                                        inPromotion3 = true;
                                 }
 			}
 			if(inStage4){
@@ -350,7 +549,7 @@ void Game::run(){
                                         }
                                         if(isSwords){
                                                 combat.Sbattle(window, action, swords, bane);
-                                                if(swords.getHP() == 0){
+                                                if(swords.getHP() <= 0){
                                                         inLose = true;
                                                         inGame = false;
                                                         inStage4 = false;
@@ -358,7 +557,7 @@ void Game::run(){
                                         }
                                         if(isArch){
                                                 combat.Abattle(window, action, arch, bane);
-                                                if(arch.getHP() == 0){
+                                                if(arch.getHP() <= 0){
                                                         inLose = true;
                                                         inGame = false;
                                                         inStage4 = false;
@@ -366,7 +565,7 @@ void Game::run(){
                                         }
                                         if(isWiz){
                                                 combat.Wbattle(window, action, wiz, bane);
-                                                if(wiz.getHP() == 0){
+                                                if(wiz.getHP() <= 0){
                                                         inLose = true;
                                                         inGame = false;
                                                         inStage4 = false;
@@ -390,7 +589,7 @@ void Game::run(){
                                 bane1.drawEnemyHUD(window);
                                 bane.drawEnemyStats(window, bane);
                                 window.display();
-                                if(bane.getHP() == 0){
+                                if(bane.getHP() <= 0){
                                         inStage4 = false;
                                         inWin = true;
                                 }
@@ -402,8 +601,10 @@ void Game::run(){
 					window.close();
 				if(event.type == Event::KeyReleased)
 					if(event.key.code == Keyboard::Escape){
-						inWin = false;
+						inWin = isSwords = isArch = isWiz = false;
 						inMenu = true;
+						Player::resetStats(swords, arch, wiz);
+                                                Enemy::resetStats(goblin, orc, vanguard, bane);
 					}
 			}
 			window.clear();
@@ -417,8 +618,10 @@ void Game::run(){
                                         window.close();
                                 if(event.type == Event::KeyReleased)
                                         if(event.key.code == Keyboard::Escape){
-                                                inLose = false;
+                                                inLose = isSwords = isArch = isWiz = false;
                                                 inMenu = true;
+						Player::resetStats(swords, arch, wiz);
+                                                Enemy::resetStats(goblin, orc, vanguard, bane);
                                         }
                         }
 			window.clear();
@@ -427,7 +630,7 @@ void Game::run(){
 			window.display();
 		}
 		//If not in any screen
-		if(!inMenu && !inChooseDiff && !inClassSelect && !inGame && !inWin && !inLose){
+		if(!inMenu && !inChooseDiff && !inClassSelect && !inGame && !inWin && !inLose && !inPromotion1 && !inPromotion2 && !inPromotion3){
 			window.close();
 		}
 	}

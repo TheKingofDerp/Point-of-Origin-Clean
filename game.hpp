@@ -2,6 +2,7 @@
 #include"util.hpp"
 #include"gameplayHUD.hpp"
 #include"combat.hpp"
+#include"promotions.hpp"
 class Game{
 private:
 	//Create Classes
@@ -33,6 +34,9 @@ private:
 		bool inStage2 = false;
 		bool inStage3 = false;
 		bool inStage4 = false;
+		bool inPromotion1 = false;
+		bool inPromotion2 = false;
+		bool inPromotion3 = false;
 	bool inWin = false;
 	bool inLose = false;
 	//Initialization

@@ -15,7 +15,7 @@ Swordsman::Swordsman(){
         ability3 = "Fortify";
         ab1desc = "Do 2x DMG. Cost: 20 Energy";
         ab2desc = "Do 4x DMG. Cost: 60 Energy";
-        ab3desc = "+1 DEF. Cost: 25 Energy";
+        ab3desc = "+25 HP. Cost: 25 Energy";
 
 }
 void Player::resetStats(Player & s, Player & a, Player & w){
@@ -262,25 +262,21 @@ void Wizard::abil2(Wizard & w, Enemy & e){
 
 }
 void Swordsman::abil3(Swordsman & s, Enemy & e){
-	int trueEDMG = e.getDMG() - s.getDEF();
-        int truePHP = s.getHP() - trueEDMG;
 	if(s.getEnergy() >= 25){
-		if(e.getDMG() > s.getDEF()){
-                	if(truePHP <= 0)
-                        	s.setHP(0);
-                else
-                        s.setHP(truePHP);
+                        if((s.getHP() + 25) >= s.getMaxHP())
+				s.setHP(s.getMaxHP());
+			else
+				s.setHP(s.getHP() + 25);
         }
-		s.setDEF(s.getDEF() + 1);
 		s.setEnergy(s.getEnergy() - 25);
-	}
 }
 void Archer::abil3(Archer & a, Enemy & e){
+        int truePDMG = a.getDMG() - e.getDEF();
+        int trueEHP = e.getHP() - truePDMG;	
 	if(a.getEnergy() >= 25){
 		a.setEnergy(a.getEnergy() - 25);
 		for(int i = 0; i < 3; i++){
-			a.basicAtk(a, e);
-			a.setEnergy(a.getEnergy() - 10);
+			e.setHP(trueEHP);
 		}
 		if((a.getHP() + 10) >= a.getMaxHP())
 			a.setHP(maxhp);

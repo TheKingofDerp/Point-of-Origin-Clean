@@ -102,7 +102,7 @@ RenderPlayerHUD::RenderPlayerHUD(Player & p){
 	font.loadFromFile("fonts/defused.ttf");
 	player.setFont(font);
 	vs.setFont(font);
-	optString = string("1) Basic Attack\n\n\n") + string("2) ") + string(p.ability1) + string("\n\n\n3) ") + string(p.ability2) + string("\n\n\n4) Heal");
+	optString = string("1) Basic Attack\n\n\n") + string("2) ") + string(p.ability1) + string("\n\n\n3) ") + string(p.ability2) + string("\n\n\n4) ") + string(p.ability3);
 	options.setFont(font);
 	options.setString(optString);
 	options.setCharacterSize(16);
